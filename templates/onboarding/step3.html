@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Step 3: Identity & PAN Details — Sprout 2.0{% endblock %}
+
+{% block content %}
+<div class="onboarding-page">
+  <div class="onboarding-card">
+    <!-- Stepper Progress Header -->
+    <div class="stepper-header">
+      <div class="stepper-meta">
+        <span>Step 3 of 5: Identity & PAN</span>
+        <span class="stepper-badge">60% Completed</span>
+      </div>
+      <div class="stepper-progress-track" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+        <div class="stepper-progress-fill" style="width: 60%;"></div>
+      </div>
+    </div>
+
+    <!-- Mascot Guidance Block -->
+    <div class="onboarding-guide-block">
+      <img src="{{ url_for('static', filename='images/pip-mascot.jpg') }}" alt="Pip the Sprout mascot" class="pip-mascot-img">
+      <div class="guide-speech-content">
+        <h2>Enter your legal details</h2>
+        <p>This allows us to verify your investor account with the Income Tax database. We keep all your data strictly encrypted.</p>
+      </div>
+    </div>
+
+    <!-- Step 3 Form -->
+    <form action="{{ url_for('onboarding_step3') }}" method="POST" id="form-step3" novalidate>
+      <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+        <!-- Full Legal Name -->
+        <div class="form-group">
+          <label for="name" class="form-label">
+            Full Name (as per PAN Card) <span style="color: var(--color-danger);">*</span>
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-input {% if errors and errors.name %}is-invalid{% endif %}"
+            placeholder="e.g. Priya Sharma"
+            value="{{ form_data.name if form_data else user.name or '' }}"
+            required
+            autocomplete="name"
+          >
+          {% if errors and errors.name %}
+            <div class="field-error" role="alert">{{ errors.name }}</div>
+          {% endif %}
+        </div>
+
+        <!-- PAN Number -->
+        <div class="form-group">
+          <div class="form-label">
+            <label for="pan_number">Permanent Account Number (PAN) <span style="color: var(--color-danger);">*</span></label>
+            <span id="pan-status-badge" class="helper" style="font-weight: 600;">10 characters</span>
+          </div>
+          <input
+            type="text"
+            id="pan_number"
+            name="pan_number"
+            class="form-input uppercase-field {% if errors and errors.pan_number %}is-invalid{% endif %}"
+            placeholder="ABCDE1234F"
+            maxlength="10"
+            value="{{ form_data.pan_number if form_data else user.pan_number or '' }}"
+            required
+            aria-describedby="pan-status-badge"
+          >
+          {% if errors and errors.pan_number %}
+            <div class="field-error" role="alert">{{ errors.pan_number }}</div>
+          {% else %}
+            <p class="field-hint">Format: 5 letters, 4 digits, 1 letter.</p>
+          {% endif %}
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="form-group">
+          <label for="dob" class="form-label">
+            Date of Birth <span style="color: var(--color-danger);">*</span>
+            <span class="helper">Must be 18+ years</span>
+          </label>
+          <input
+            type="date"
+            id="dob"
+            name="dob"
+            class="form-input {% if errors and errors.dob %}is-invalid{% endif %}"
+            value="{{ form_data.dob if form_data else user.dob or '' }}"
+            required
+          >
+          {% if errors and errors.dob %}
+            <div class="field-error" role="alert">{{ errors.dob }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Mobile Number -->
+        <div class="form-group">
+          <label for="mobile" class="form-label">
+            Mobile Number (linked to Aadhaar) <span style="color: var(--color-danger);">*</span>
+          </label>
+          <div style="display: flex; gap: 8px;">
+            <span style="display: flex; align-items: center; justify-content: center; background: #F1F5F9; border: 1.5px solid var(--color-border); border-radius: var(--radius-md); padding: 0 12px; font-weight: 600; color: var(--color-text-muted); font-size: 14px;">+91</span>
+            <input
+              type="tel"
+              id="mobile"
+              name="mobile"
+              class="form-input {% if errors and errors.mobile %}is-invalid{% endif %}"
+              placeholder="9876543210"
+              maxlength="10"
+              value="{{ form_data.mobile if form_data else user.mobile or '' }}"
+              required
+            >
+          </div>
+          {% if errors and errors.mobile %}
+            <div class="field-error" role="alert">{{ errors.mobile }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Navigation Actions -->
+        <div class="onboarding-actions">
+          <a href="{{ url_for('onboarding_step2') }}" class="action-back-link">
+            ← Back to Checklist
+          </a>
+          <button type="submit" class="btn btn-primary" id="btn-step3-next">
+            Verify & Proceed to DigiLocker →
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

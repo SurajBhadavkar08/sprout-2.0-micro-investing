@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}Sprout 2.0 — Start Investing in India with Just ₹100{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION -->
+<section class="hero-section" aria-labelledby="hero-heading">
+  <div class="hero-container">
+    <div class="hero-content">
+      <div class="trust-badge-pill">
+        <span class="dot" aria-hidden="true"></span>
+        <span data-i18n="hero_badge">SEBI Registered Partners • Start with ₹100</span>
+      </div>
+
+      <h1 class="hero-title" id="hero-heading">
+        <span data-i18n="hero_title_1">Plant your wealth.</span><br>
+        <span class="highlight" data-i18n="hero_title_2">Start with just ₹100.</span>
+      </h1>
+
+      <p class="hero-subtitle" data-i18n="hero_sub">
+        India's friendliest micro-investing journey. No confusing jargon, no big money needed.
+        Grow with India's top 50 companies with the spare change in your pocket.
+      </p>
+
+      <!-- Mascot Speech Callout (Bridges CEO minimal & Marketing mascot requirements) -->
+      <div class="mascot-callout" role="region" aria-label="Sprout Mascot Guidance">
+        <img src="{{ url_for('static', filename='images/pip-mascot.jpg') }}" alt="Pip the Sprout mascot avatar" class="mascot-avatar-small">
+        <div class="mascot-callout-text">
+          <strong>Pip the Sprout Companion</strong>
+          <span data-i18n="mascot_quote">"Hi, I'm Pip! I'm here to make investing simple, transparent, and fearless for you."</span>
+        </div>
+      </div>
+
+      <div class="hero-cta-group">
+        <a href="{{ url_for('onboarding_root') }}" class="btn btn-primary btn-lg" id="btn-hero-cta">
+          <span data-i18n="cta_start">Start with ₹100 Now</span> →
+        </a>
+        <a href="#calculator" class="btn btn-secondary btn-lg">
+          Explore Growth Calculator
+        </a>
+      </div>
+
+      <div class="cta-caption">
+        <span>⏱️ Takes under 2 mins</span>
+        <span>•</span>
+        <span>📑 100% Paperless KYC</span>
+        <span>•</span>
+        <span>🛡️ Direct Mutual Funds</span>
+      </div>
+    </div>
+
+    <!-- Hero Visual Card -->
+    <div class="hero-visual-card">
+      <img src="{{ url_for('static', filename='images/hero-banner.jpg') }}" alt="Sprout 2.0 Micro-Investing Visualization" class="hero-banner-img" width="560" height="315" loading="eager">
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: COMPOUNDING SEED CALCULATOR (Demystifies fear for the 65% who felt investing is scary) -->
+<section class="calc-section" id="calculator" aria-labelledby="calc-heading">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-tag" data-i18n="calc_tag">The Power of Consistency</span>
+      <h2 class="section-title" id="calc-heading" data-i18n="calc_title">See what ₹100 can grow into</h2>
+      <p class="section-desc" data-i18n="calc_desc">
+        You don't need lakhs of rupees to build wealth. Small seeds planted regularly create mighty financial trees.
+      </p>
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-controls">
+        <!-- Monthly Amount Slider -->
+        <div class="calc-slider-group">
+          <div class="slider-label-row">
+            <label for="calc-amount-slider" class="slider-label">Monthly Investment Amount</label>
+            <span class="slider-val-badge" id="calc-amount-display">₹100</span>
+          </div>
+          <input type="range" id="calc-amount-slider" class="custom-range" min="100" max="5000" step="100" value="100" aria-valuemin="100" aria-valuemax="5000" aria-valuenow="100">
+          <div class="slider-presets">
+            <button type="button" class="preset-btn active" data-amt="100">₹100</button>
+            <button type="button" class="preset-btn" data-amt="500">₹500</button>
+            <button type="button" class="preset-btn" data-amt="1000">₹1,000</button>
+            <button type="button" class="preset-btn" data-amt="2500">₹2,500</button>
+          </div>
+        </div>
+
+        <!-- Time Horizon Slider -->
+        <div class="calc-slider-group">
+          <div class="slider-label-row">
+            <label for="calc-years-slider" class="slider-label">Investment Duration</label>
+            <span class="slider-val-badge" id="calc-years-display">5 Years</span>
+          </div>
+          <input type="range" id="calc-years-slider" class="custom-range" min="1" max="10" step="1" value="5" aria-valuemin="1" aria-valuemax="10" aria-valuenow="5">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--color-text-subtle);">
+            <span>1 Year</span>
+            <span>3 Years</span>
+            <span>5 Years</span>
+            <span>10 Years</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Projection Results Card -->
+      <div class="calc-results-card" aria-live="polite">
+        <div class="res-headline">Estimated Portfolio Value</div>
+        <div class="res-big-value" id="calc-final-value">₹13,915</div>
+
+        <div class="res-breakdown">
+          <div class="res-row">
+            <span>Amount You Invested</span>
+            <strong id="calc-total-invested">₹6,000</strong>
+          </div>
+          <div class="res-row">
+            <span>Compounded Returns</span>
+            <strong id="calc-wealth-gains" style="color: #6EE7B7;">+₹7,915</strong>
+          </div>
+        </div>
+
+        <div class="res-note">
+          *Calculated at 12% p.a. historical broad equity index CAGR. Mutual fund returns are subject to market risks and are not guaranteed.
+        </div>
+      </div>
+    </div>
+
+    <!-- PRE-KYC READINESS CALLOUT (Solves Customer Support Pain Point 1: 'I didn't know I needed my PAN and Aadhaar ready') -->
+    <div class="support-prep-callout" role="note">
+      <div class="support-prep-icon" aria-hidden="true">📋</div>
+      <div class="support-prep-text">
+        <h3 data-i18n="prep_title">Before you start: 2-Minute KYC Checklist</h3>
+        <p data-i18n="prep_desc">To avoid any unexpected pauses, keep these 2 items handy before opening your account:</p>
+        <div class="prep-checklist-badges">
+          <span class="prep-badge">✓ <span data-i18n="prep_pan">PAN Card Number</span></span>
+          <span class="prep-badge">✓ <span data-i18n="prep_aadhaar">Aadhaar-linked Mobile</span></span>
+          <span class="prep-badge">✓ <span data-i18n="prep_upi">UPI / Bank for ₹100</span></span>
+        </div>
+      </div>
+      <div>
+        <a href="{{ url_for('onboarding_step1') }}" class="btn btn-primary" style="white-space: nowrap;">
+          Start Now →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: 3-STEP JOURNEY -->
+<section style="padding: var(--space-12) var(--space-4); background: #F8FAFC;" aria-labelledby="journey-heading">
+  <div class="section-container">
+    <div class="section-header">
+      <span class="section-tag">How It Works</span>
+      <h2 class="section-title" id="journey-heading">Investing made as simple as sending a UPI payment</h2>
+      <p class="section-desc">We reimagined investing from the ground up for first-timers in India.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6);">
+      <!-- Step 1 -->
+      <div style="background: #FFFFFF; border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); display: flex; flex-direction: column; gap: 12px;">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--color-primary-subtle); color: var(--color-primary-dark); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 18px;">1</div>
+        <h3 style="font-size: 18px; font-weight: 700; color: var(--color-text-main);">Pick your Goal</h3>
+        <p style="font-size: 14px; color: var(--color-text-muted); line-height: 1.5;">Choose what you are saving for—whether it's an emergency fund, your first gadget, or long-term financial independence.</p>
+      </div>
+
+      <!-- Step 2 -->
+      <div style="background: #FFFFFF; border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); display: flex; flex-direction: column; gap: 12px;">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--color-primary-subtle); color: var(--color-primary-dark); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 18px;">2</div>
+        <h3 style="font-size: 18px; font-weight: 700; color: var(--color-text-main);">Instant DigiLocker KYC</h3>
+        <p style="font-size: 14px; color: var(--color-text-muted); line-height: 1.5;">Verify in 120 seconds with your PAN and Aadhaar OTP. Bank-grade 256-bit encryption with real-time status feedback.</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div style="background: #FFFFFF; border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); display: flex; flex-direction: column; gap: 12px;">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--color-primary-subtle); color: var(--color-primary-dark); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 18px;">3</div>
+        <h3 style="font-size: 18px; font-weight: 700; color: var(--color-text-main);">Plant your First ₹100</h3>
+        <p style="font-size: 14px; color: var(--color-text-muted); line-height: 1.5;">Allocate ₹100 via any UPI app (GPay, PhonePe, Paytm). Watch your fractional units grow safely with India's economy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

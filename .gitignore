@@ -1,0 +1,22 @@
+# Python & Environment
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+ENV/
+
+# Flask & SQLite
+instance/sprout.db
+*.sqlite3
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Antigravity & Scratch
+scratch/
+.system_generated/

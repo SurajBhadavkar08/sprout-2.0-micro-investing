@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sprout 2.0 - India's simplest micro-investing platform. Start building wealth from just ₹100 with transparent, SEBI-compliant funds.">
+  <meta name="theme-color" content="#059669">
+  <title>{% block title %}Sprout 2.0 — Start Investing with Just ₹100{% endblock %}</title>
+
+  <!-- Favicon Sprout Seedling -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+
+  <!-- Core Production Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <!-- Accessible Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- 1. MANDATORY COMPLIANCE RIBBON (Visible without scrolling, >= 12px text) -->
+  <aside class="compliance-ribbon" aria-label="Regulatory Risk Notice">
+    <strong>Market Risk Disclosure:</strong> Investments in securities market are subject to market risks. Read all scheme-related documents carefully.
+  </aside>
+
+  <!-- 2. LIVE MARKET PULSE TICKER -->
+  <div class="market-ticker-bar" aria-label="Live Market Indices">
+    <div class="ticker-inner">
+      {% for ticker in market_ticker %}
+        <span class="ticker-item">
+          <span class="ticker-sym">{{ ticker.symbol }}:</span>
+          <span class="ticker-val">{{ ticker.value }}</span>
+          <span class="ticker-change {% if ticker.positive %}pos{% else %}neg{% endif %}">{{ ticker.change }}</span>
+        </span>
+      {% endfor %}
+      <!-- Duplicate for seamless infinite loop -->
+      {% for ticker in market_ticker %}
+        <span class="ticker-item" aria-hidden="true">
+          <span class="ticker-sym">{{ ticker.symbol }}:</span>
+          <span class="ticker-val">{{ ticker.value }}</span>
+          <span class="ticker-change {% if ticker.positive %}pos{% else %}neg{% endif %}">{{ ticker.change }}</span>
+        </span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- 3. MAIN NAVIGATION BAR -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="{{ url_for('index') }}" class="brand-link" aria-label="Sprout 2.0 Homepage">
+        <span class="brand-logo-icon" aria-hidden="true">🌱</span>
+        <span class="brand-text">Sprout</span>
+        <span class="brand-tag">2.0</span>
+      </a>
+
+      <div class="nav-actions">
+        <!-- Bilingual Language Switcher -->
+        <button type="button" class="lang-toggle-btn" id="lang-toggle-btn" aria-label="Switch Language (हिंदी / English)">
+          <span aria-hidden="true">🌐</span>
+          <span id="lang-btn-label">हिंदी</span>
+        </button>
+
+        {% if request.path.startswith('/onboarding') %}
+          <button type="button" class="btn btn-secondary btn-reset-onboarding" style="min-height: 38px; padding: 6px 14px; font-size: 13px;" title="Reset onboarding session">
+            ↺ Reset Demo
+          </button>
+        {% else %}
+          <a href="{{ url_for('onboarding_root') }}" class="btn btn-primary" style="min-height: 40px; padding: 8px 18px; font-size: 14px;">
+            Start with ₹100
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <!-- Flash Message Container -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+        {% for category, message in messages %}
+          <div class="flash-alert {{ category }}" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Main Content Hook -->
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- 4. SITE FOOTER WITH DETAILED COMPLIANCE & ACCESSIBILITY -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <h4>Sprout Financial Technologies Pvt. Ltd.</h4>
+          <p>India's trusted micro-investing platform built for first-time investors. Start your compounding habit with just ₹100.</p>
+          <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <span class="prep-badge">🔒 256-Bit Bank Grade SSL</span>
+            <span class="prep-badge">🏛️ SEBI Regulated AMCs</span>
+            <span class="prep-badge">🛡️ CDSL Custody</span>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <h5>Onboarding Flow</h5>
+          <ul>
+            <li><a href="{{ url_for('onboarding_step1') }}">1. Goal Discovery</a></li>
+            <li><a href="{{ url_for('onboarding_step2') }}">2. Document Checklist</a></li>
+            <li><a href="{{ url_for('onboarding_step3') }}">3. Identity & PAN</a></li>
+            <li><a href="{{ url_for('onboarding_step4') }}">4. DigiLocker KYC</a></li>
+            <li><a href="{{ url_for('onboarding_step5') }}">5. First ₹100 Allocation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h5>Trust & Legal</h5>
+          <ul>
+            <li><a href="#compliance">SEBI Compliance</a></li>
+            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="#terms">Terms of Service</a></li>
+            <li><a href="#support">Help & Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-compliance-box" id="compliance">
+        <strong>Important Regulatory Notice:</strong> Mutual fund investments are subject to market risks, read all scheme related documents carefully. Sprout does not offer any guaranteed or risk-free returns. Past performance of mutual funds is not an indicator of future returns. Mutual fund distribution services provided through AMFI Registration Number ARN-289412.
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Sprout 2.0. All rights reserved. Designed for WCAG AA compliance & high performance on Indian 4G networks.</div>
+        <div>Made with ❤️ for Indian First-Time Investors</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core JavaScript -->
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

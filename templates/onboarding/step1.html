@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Step 1: Choose Your Goal — Sprout 2.0{% endblock %}
+
+{% block content %}
+<div class="onboarding-page">
+  <div class="onboarding-card">
+    <!-- Stepper Progress Header -->
+    <div class="stepper-header">
+      <div class="stepper-meta">
+        <span>Step 1 of 5: Investment Goal</span>
+        <span class="stepper-badge">20% Completed</span>
+      </div>
+      <div class="stepper-progress-track" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+        <div class="stepper-progress-fill" style="width: 20%;"></div>
+      </div>
+    </div>
+
+    <!-- Mascot Guidance Block -->
+    <div class="onboarding-guide-block">
+      <img src="{{ url_for('static', filename='images/pip-mascot.jpg') }}" alt="Pip the Sprout mascot" class="pip-mascot-img">
+      <div class="guide-speech-content">
+        <h2>What brings you to Sprout today?</h2>
+        <p>I will help personalize your micro-investing journey. Starting with just ₹100 builds consistency without any financial stress.</p>
+      </div>
+    </div>
+
+    <!-- Step 1 Form -->
+    <form action="{{ url_for('onboarding_step1') }}" method="POST" id="form-step1" novalidate>
+      <div style="display: flex; flex-direction: column; gap: var(--space-5);">
+        <!-- Optional Name / First Name -->
+        <div class="form-group">
+          <label for="name" class="form-label">
+            Your First Name
+            <span class="helper">How should Pip address you?</span>
+          </label>
+          <input type="text" id="name" name="name" class="form-input" placeholder="e.g. Priya or Rahul" value="{{ form_data.name if form_data else user.name or '' }}">
+        </div>
+
+        <!-- Investment Goal Selection -->
+        <fieldset class="form-group" style="border: 0; padding: 0;">
+          <legend class="form-label" style="margin-bottom: 6px;">
+            Choose Your Primary Goal <span style="color: var(--color-danger);">*</span>
+          </legend>
+
+          {% if errors and errors.investment_goal %}
+            <div class="field-error" role="alert">{{ errors.investment_goal }}</div>
+          {% endif %}
+
+          <div class="options-grid">
+            <!-- Goal 1 -->
+            <label class="option-card-label">
+              <input type="radio" name="investment_goal" value="wealth" class="sr-only" {% if (form_data.investment_goal if form_data else user.investment_goal) == 'wealth' or not (user.investment_goal) %}checked{% endif %}>
+              <div class="option-card-content">
+                <span class="option-icon" aria-hidden="true">🌱</span>
+                <div class="option-title">Long-Term Wealth</div>
+                <div class="option-desc">Build wealth steadily over years using compounding index funds.</div>
+              </div>
+            </label>
+
+            <!-- Goal 2 -->
+            <label class="option-card-label">
+              <input type="radio" name="investment_goal" value="emergency" class="sr-only" {% if (form_data.investment_goal if form_data else user.investment_goal) == 'emergency' %}checked{% endif %}>
+              <div class="option-card-content">
+                <span class="option-icon" aria-hidden="true">🛡️</span>
+                <div class="option-title">Emergency Shield</div>
+                <div class="option-desc">Keep funds liquid and growing for life's unexpected surprises.</div>
+              </div>
+            </label>
+
+            <!-- Goal 3 -->
+            <label class="option-card-label">
+              <input type="radio" name="investment_goal" value="gadget" class="sr-only" {% if (form_data.investment_goal if form_data else user.investment_goal) == 'gadget' %}checked{% endif %}>
+              <div class="option-card-content">
+                <span class="option-icon" aria-hidden="true">🎒</span>
+                <div class="option-title">Dream Purchase</div>
+                <div class="option-desc">Save toward a new laptop, bike, or your next holiday milestone.</div>
+              </div>
+            </label>
+
+            <!-- Goal 4 -->
+            <label class="option-card-label">
+              <input type="radio" name="investment_goal" value="learning" class="sr-only" {% if (form_data.investment_goal if form_data else user.investment_goal) == 'learning' %}checked{% endif %}>
+              <div class="option-card-content">
+                <span class="option-icon" aria-hidden="true">🧭</span>
+                <div class="option-title">Learn with ₹100</div>
+                <div class="option-desc">Demystify mutual funds with zero pressure and zero fear.</div>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Starting Monthly Amount -->
+        <fieldset class="form-group" style="border: 0; padding: 0;">
+          <legend class="form-label">
+            How much would you like to start with each month?
+          </legend>
+
+          <div style="display: flex; gap: var(--space-2); flex-wrap: wrap; margin-top: 4px;">
+            {% set current_amt = (form_data.monthly_amount if form_data else user.monthly_amount)|string %}
+            {% for amt in ['100', '500', '1000', '2000'] %}
+              <label class="preset-btn {% if current_amt == amt or (not current_amt and amt == '100') %}active{% endif %}" style="display: inline-flex; align-items: center; gap: 6px;">
+                <input type="radio" name="monthly_amount" value="{{ amt }}" class="sr-only" {% if current_amt == amt or (not current_amt and amt == '100') %}checked{% endif %}>
+                ₹{{ amt }}
+              </label>
+            {% endfor %}
+          </div>
+          <p class="field-hint" style="margin-top: 6px;">
+            💡 You can modify or pause this anytime. There are no lock-ins or penalty fees.
+          </p>
+        </fieldset>
+
+        <!-- Navigation Buttons -->
+        <div class="onboarding-actions">
+          <a href="{{ url_for('index') }}" class="action-back-link">
+            ← Home
+          </a>
+          <button type="submit" class="btn btn-primary" id="btn-step1-next">
+            Next: Document Checklist →
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

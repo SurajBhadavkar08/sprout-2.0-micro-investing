@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Congratulations! Seed Planted — Sprout 2.0{% endblock %}
+
+{% block content %}
+<div class="onboarding-page">
+  <div class="onboarding-card celebrate-card">
+    <!-- Celebratory Mascot Bloom -->
+    <div style="position: relative; margin-top: -10px;">
+      <img src="{{ url_for('static', filename='images/pip-mascot.jpg') }}" alt="Pip celebrating your investment" class="bloom-avatar">
+      <div style="position: absolute; bottom: 0; right: 0; background: #FBBF24; color: #0F172A; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; border: 2px solid #FFFFFF;">
+        ★
+      </div>
+    </div>
+
+    <div>
+      <span class="section-tag" style="background: #D1FAE5; color: #065F46;">🎉 Official Investor Milestone</span>
+      <h1 class="celebrate-title" style="margin-top: 8px;">
+        Congratulations{% if user.name %}, {{ user.name }}{% endif %}!
+      </h1>
+      <p style="color: var(--color-text-muted); font-size: 1.05rem; max-width: 480px; margin: 6px auto 0;">
+        Your first ₹100 seed has been planted. You are officially an investor in India's top companies.
+      </p>
+    </div>
+
+    <!-- Official Investor Certificate Card -->
+    <div class="investor-certificate">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-primary-border); padding-bottom: 10px;">
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--color-primary-dark); letter-spacing: 0.05em;">Digital Allotment Slip</span>
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--color-text-main); margin-top: 2px;">{{ basket_title }}</h3>
+        </div>
+        <span class="trust-badge-pill" style="font-size: 11px; padding: 4px 10px;">
+          ✓ Allotted
+        </span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); font-size: 13px; margin-top: 4px;">
+        <div>
+          <span style="color: var(--color-text-subtle); display: block;">Amount Invested:</span>
+          <strong style="color: var(--color-text-main); font-size: 15px;">₹100.00</strong>
+        </div>
+        <div>
+          <span style="color: var(--color-text-subtle); display: block;">Allotment NAV:</span>
+          <strong style="color: var(--color-text-main); font-size: 15px;">₹41.35 / unit</strong>
+        </div>
+        <div>
+          <span style="color: var(--color-text-subtle); display: block;">Units Allocated:</span>
+          <strong style="color: var(--color-text-main); font-size: 15px;">2.4184 Units</strong>
+        </div>
+        <div>
+          <span style="color: var(--color-text-subtle); display: block;">Depository Custody:</span>
+          <strong style="color: var(--color-text-main); font-size: 15px;">CDSL Demat Ready</strong>
+        </div>
+      </div>
+
+      <div style="border-top: 1px dashed var(--color-primary-border); padding-top: 8px; font-size: 11px; color: var(--color-text-subtle); display: flex; justify-content: space-between;">
+        <span>PAN: {{ user.pan_number or 'ABCDE1234F' }}</span>
+        <span>ARN: 289412 (AMFI Registered)</span>
+      </div>
+    </div>
+
+    <!-- Referral Card (Satisfies Marketing Head without annoying pop-ups!) -->
+    <div style="background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: var(--radius-md); padding: var(--space-4); width: 100%; text-align: left; display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);">
+      <div>
+        <strong style="color: #92400E; font-size: 14px; display: block;">🎁 Share the habit of investing</strong>
+        <span style="font-size: 12px; color: #B45309;">Gift a friend ₹50 seed bonus. When they invest ₹100, you both get ₹50 bonus.</span>
+      </div>
+      <button type="button" class="btn btn-secondary" style="min-height: 36px; padding: 6px 14px; font-size: 12px; white-space: nowrap; border-color: #F59E0B; color: #92400E;" onclick="navigator.clipboard && navigator.clipboard.writeText('https://sprout.in/join/SEED100'); alert('Referral link copied to clipboard!');">
+        Copy Link
+      </button>
+    </div>
+
+    <!-- Action Group -->
+    <div style="display: flex; gap: var(--space-3); width: 100%; flex-wrap: wrap;">
+      <a href="{{ url_for('index') }}" class="btn btn-primary btn-block" style="flex: 1; min-height: 48px;">
+        Return to Home & Portfolio
+      </a>
+      <button type="button" class="btn btn-secondary btn-reset-onboarding" style="min-height: 48px;">
+        ↺ Test Again
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}

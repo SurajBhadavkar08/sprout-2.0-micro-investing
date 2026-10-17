@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Step 5: Allocate Your First ₹100 — Sprout 2.0{% endblock %}
+
+{% block content %}
+<div class="onboarding-page">
+  <div class="onboarding-card">
+    <!-- Stepper Progress Header -->
+    <div class="stepper-header">
+      <div class="stepper-meta">
+        <span>Step 5 of 5: First ₹100 Allocation</span>
+        <span class="stepper-badge" style="background: #D1FAE5; color: #065F46;">100% Ready</span>
+      </div>
+      <div class="stepper-progress-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+        <div class="stepper-progress-fill" style="width: 100%;"></div>
+      </div>
+    </div>
+
+    <!-- Mascot Guidance Block -->
+    <div class="onboarding-guide-block">
+      <img src="{{ url_for('static', filename='images/pip-mascot.jpg') }}" alt="Pip the Sprout mascot" class="pip-mascot-img">
+      <div class="guide-speech-content">
+        <h2>KYC Approved! Choose where your ₹100 grows</h2>
+        <p>You have successfully unlocked your investor account. Pick a curated starter basket to plant your first seed.</p>
+      </div>
+    </div>
+
+    <!-- Step 5 Form -->
+    <form action="{{ url_for('onboarding_step5') }}" method="POST" id="form-step5">
+      <div style="display: flex; flex-direction: column; gap: var(--space-5);">
+        <!-- Basket Selection Cards -->
+        <fieldset class="form-group" style="border: 0; padding: 0;">
+          <legend class="form-label" style="margin-bottom: 8px;">
+            Select Starter Basket (Starting from ₹100)
+          </legend>
+
+          <div class="basket-choice-grid">
+            <!-- Basket 1: Top 50 Index -->
+            <label class="basket-card-label">
+              <input type="radio" name="basket_choice" value="nifty50" {% if user.basket_choice == 'nifty50' or not user.basket_choice %}checked{% endif %}>
+              <div>
+                <strong style="display: block; font-size: 15px; color: var(--color-text-main);">Sprout India Top 50 Index Basket</strong>
+                <span style="font-size: 13px; color: var(--color-text-muted);">Own India's 50 titan companies (Reliance, TCS, HDFC, Infosys).</span>
+                <div style="margin-top: 4px; display: flex; gap: 6px;">
+                  <span class="prep-badge" style="font-size: 11px;">100% Direct Equity Index</span>
+                  <span class="prep-badge" style="font-size: 11px; color: #059669;">Zero Commission</span>
+                </div>
+              </div>
+              <div class="basket-badge-stat">
+                <span class="ret-pct">~13.8%</span>
+                <span class="ret-lbl">5-Yr Avg (Past)</span>
+              </div>
+            </label>
+
+            <!-- Basket 2: Liquid Emergency Reserve -->
+            <label class="basket-card-label">
+              <input type="radio" name="basket_choice" value="emergency_fund" {% if user.basket_choice == 'emergency_fund' %}checked{% endif %}>
+              <div>
+                <strong style="display: block; font-size: 15px; color: var(--color-text-main);">Instant Liquid Emergency Shield</strong>
+                <span style="font-size: 13px; color: var(--color-text-muted);">Higher returns than savings bank accounts. Withdraw anytime in 24 hours.</span>
+                <div style="margin-top: 4px; display: flex; gap: 6px;">
+                  <span class="prep-badge" style="font-size: 11px;">Low Risk Debt</span>
+                  <span class="prep-badge" style="font-size: 11px; color: #2563EB;">Instant Liquidity</span>
+                </div>
+              </div>
+              <div class="basket-badge-stat">
+                <span class="ret-pct">~6.8%</span>
+                <span class="ret-lbl">Annualized (Past)</span>
+              </div>
+            </label>
+
+            <!-- Basket 3: Gold & Equity Hybrid -->
+            <label class="basket-card-label">
+              <input type="radio" name="basket_choice" value="gold_hybrid" {% if user.basket_choice == 'gold_hybrid' %}checked{% endif %}>
+              <div>
+                <strong style="display: block; font-size: 15px; color: var(--color-text-main);">Gold & Equity Growth Hybrid</strong>
+                <span style="font-size: 13px; color: var(--color-text-muted);">50% 24K pure digital gold + 50% Top 50 index. Balance safety with growth.</span>
+                <div style="margin-top: 4px; display: flex; gap: 6px;">
+                  <span class="prep-badge" style="font-size: 11px;">Gold + Stocks</span>
+                  <span class="prep-badge" style="font-size: 11px;">Inflation Hedge</span>
+                </div>
+              </div>
+              <div class="basket-badge-stat">
+                <span class="ret-pct">~11.4%</span>
+                <span class="ret-lbl">3-Yr Avg (Past)</span>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Order Breakdown Summary -->
+        <div class="order-summary-box">
+          <div class="order-summary-row">
+            <span>First Seed Investment</span>
+            <strong>₹100.00</strong>
+          </div>
+          <div class="order-summary-row">
+            <span>Account Opening & KYC Fee</span>
+            <span style="color: #059669; font-weight: 600;">₹0 (Free)</span>
+          </div>
+          <div class="order-summary-row">
+            <span>Platform & Brokerage Fees</span>
+            <span style="color: #059669; font-weight: 600;">₹0 (Direct Plans)</span>
+          </div>
+          <div class="order-summary-row total">
+            <span>Total Amount to Pay</span>
+            <span style="color: var(--color-primary-dark); font-size: 18px;">₹100.00</span>
+          </div>
+        </div>
+
+        <!-- Payment Method Selection -->
+        <fieldset class="form-group" style="border: 0; padding: 0;">
+          <legend class="form-label">Payment Method</legend>
+          <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+            <label class="preset-btn active" style="display: inline-flex; align-items: center; gap: 8px;">
+              <input type="radio" name="payment_method" value="upi" class="sr-only" checked>
+              <span>📱 UPI (GPay / PhonePe / Paytm / BHIM)</span>
+            </label>
+            <label class="preset-btn" style="display: inline-flex; align-items: center; gap: 8px;">
+              <input type="radio" name="payment_method" value="netbanking" class="sr-only">
+              <span>🏦 Net Banking (SBI / HDFC / ICICI)</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Compliance Risk Notice (Visible without scrolling) -->
+        <div style="font-size: 12px; color: var(--color-text-subtle); line-height: 1.4; background: #F8FAFC; padding: 8px 12px; border-radius: var(--radius-sm); border-left: 3px solid #059669;">
+          <strong>Risk Note:</strong> Investment in mutual funds is subject to market risks. There are no assured or guaranteed returns. Past performance is not indicative of future returns.
+        </div>
+
+        <!-- Navigation Actions -->
+        <div class="onboarding-actions">
+          <a href="{{ url_for('onboarding_step4') }}" class="action-back-link">
+            ← Back to Step 4
+          </a>
+          <button type="submit" class="btn btn-primary btn-lg" id="btn-confirm-investment" style="font-size: 16px;">
+            🌱 Plant My ₹100 Seed Now
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}Step 4: DigiLocker Aadhaar Verification — Sprout 2.0{% endblock %}
+
+{% block content %}
+<div class="onboarding-page">
+  <div class="onboarding-card">
+    <!-- Stepper Progress Header -->
+    <div class="stepper-header">
+      <div class="stepper-meta">
+        <span>Step 4 of 5: Paperless DigiLocker KYC</span>
+        <span class="stepper-badge">80% Completed</span>
+      </div>
+      <div class="stepper-progress-track" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+        <div class="stepper-progress-fill" style="width: 80%;"></div>
+      </div>
+    </div>
+
+    <!-- Mascot Guidance Block -->
+    <div class="onboarding-guide-block">
+      <img src="{{ url_for('static', filename='images/pip-mascot.jpg') }}" alt="Pip the Sprout mascot" class="pip-mascot-img">
+      <div class="guide-speech-content">
+        <h2>Zero paperwork with DigiLocker</h2>
+        <p>We connect securely with the Government of India's DigiLocker gateway. Watch the live progress below—this takes only a few seconds!</p>
+      </div>
+    </div>
+
+    <!-- Step 4 Form -->
+    <form action="{{ url_for('onboarding_step4') }}" method="POST" id="form-step4" novalidate>
+      <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+        <!-- Aadhaar Number (Last 4 digits or masked) -->
+        <div class="form-group">
+          <label for="aadhaar_last_four" class="form-label">
+            Last 4 Digits of Aadhaar <span style="color: var(--color-danger);">*</span>
+            <span class="helper">Masked for your privacy (•••• •••• XXXX)</span>
+          </label>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span style="font-family: var(--font-mono); font-size: 16px; color: var(--color-text-subtle); letter-spacing: 0.1em; background: #F1F5F9; padding: 10px 14px; border-radius: var(--radius-md); border: 1.5px solid var(--color-border);">•••• ••••</span>
+            <input
+              type="text"
+              id="aadhaar_last_four"
+              name="aadhaar_last_four"
+              class="form-input {% if errors and errors.aadhaar_last_four %}is-invalid{% endif %}"
+              placeholder="4321"
+              maxlength="4"
+              pattern="\d{4}"
+              value="{{ form_data.aadhaar_last_four if form_data else user.aadhaar_last_four or '' }}"
+              style="width: 110px; font-family: var(--font-mono); font-size: 16px; text-align: center; letter-spacing: 0.1em;"
+              required
+            >
+          </div>
+          {% if errors and errors.aadhaar_last_four %}
+            <div class="field-error" role="alert">{{ errors.aadhaar_last_four }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Trigger Button for Live DigiLocker Simulation -->
+        <div id="trigger-container">
+          <button type="button" class="btn btn-outline-primary btn-block" id="btn-verify-digilocker">
+            🔒 Connect to DigiLocker & Fetch OTP
+          </button>
+        </div>
+
+        <!-- TRANSPARENT LIVE STATUS BOX (Directly resolves Customer Support complaint: 'The app asked me to wait and I thought it crashed') -->
+        <div class="digilocker-box" id="digilocker-progress-box" style="display: none;" role="status" aria-live="polite">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 8px;">
+            <strong style="color: var(--color-text-main); font-size: 14px; display: flex; align-items: center; gap: 6px;">
+              <span class="dot" style="display: inline-block; width: 8px; height: 8px; background: #059669; border-radius: 50%;"></span>
+              Live Gateway Status
+            </strong>
+            <span id="digilocker-countdown" style="font-size: 12px; font-weight: 700; color: var(--color-primary-dark);">
+              4s remaining...
+            </span>
+          </div>
+
+          <ul class="status-tracker-list">
+            <li class="tracker-item active" id="step-track-1">
+              <span class="tracker-icon">1</span>
+              <span>Initiating secure 256-bit DigiLocker handshake...</span>
+            </li>
+            <li class="tracker-item" id="step-track-2">
+              <span class="tracker-icon">2</span>
+              <span>Querying UIDAI Aadhaar verification gateway...</span>
+            </li>
+            <li class="tracker-item" id="step-track-3">
+              <span class="tracker-icon">3</span>
+              <span>Matching legal name & dispatching secure 6-digit OTP...</span>
+            </li>
+          </ul>
+
+          <!-- Reassurance message so users never think it crashed -->
+          <div class="reassurance-banner">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <div>
+              <strong>Please stay on this screen:</strong> The verification server is responding normally. Your connection is encrypted and active.
+            </div>
+          </div>
+        </div>
+
+        <!-- OTP Input Section (Revealed smoothly after DigiLocker handshake) -->
+        <div id="digilocker-otp-section" style="display: {% if user.digilocker_verified or (form_data and form_data.otp) %}block{% else %}none{% endif %};">
+          <div class="form-group">
+            <label for="otp" class="form-label">
+              Enter 6-Digit OTP sent to your Aadhaar Mobile <span style="color: var(--color-danger);">*</span>
+              <span class="helper" style="color: #059669; font-weight: 600;">(Demo OTP: 123456)</span>
+            </label>
+            <input
+              type="text"
+              id="otp"
+              name="otp"
+              class="form-input {% if errors and errors.otp %}is-invalid{% endif %}"
+              placeholder="123456"
+              maxlength="6"
+              pattern="\d{6}"
+              value="{{ form_data.otp if form_data else '123456' }}"
+              style="font-family: var(--font-mono); font-size: 18px; letter-spacing: 0.25em; text-align: center; max-width: 200px;"
+            >
+            {% if errors and errors.otp %}
+              <div class="field-error" role="alert">{{ errors.otp }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Navigation Actions -->
+        <div class="onboarding-actions">
+          <a href="{{ url_for('onboarding_step3') }}" class="action-back-link">
+            ← Back to Step 3
+          </a>
+          <button type="submit" class="btn btn-primary" id="btn-submit-step4" style="display: {% if user.digilocker_verified or (form_data and form_data.otp) %}inline-flex{% else %}none{% endif %};">
+            Confirm OTP & Choose Basket →
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
