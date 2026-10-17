@@ -1,6 +1,11 @@
 # Sprout 2.0 — Micro-Investing Platform (₹100 to Wealth)
 
+
 > **Sprout 2.0** is a full-stack, mobile-first micro-investing web application engineered for first-time investors across India. It reimagines the investing journey through a continuous storytelling flow guided by **Pip**—an elegant, reassuring seedling companion.
+
+🎨 **Figma Prototype & Design System:**
+- **Complete Design System & Blueprint:** See [`FIGMA_DESIGN_SYSTEM.md`](./FIGMA_DESIGN_SYSTEM.md) for full tokens, auto-layout parameters, and prototyping specs.
+- **Figma File / Prototype Link:** [View Figma Prototype (Sprout 2.0)](https://www.figma.com/file/sprout-2-0-micro-investing) *(Replace with your personal Figma share link)*
 
 Built strictly using **HTML5, Vanilla CSS3, Modern JavaScript (ES6+), Python (Flask), Jinja2, and SQLite**, Sprout 2.0 adheres to a zero-heavy-framework principle, guaranteeing blazing fast page loads (<250 KB total page weight) even on budget smartphones (<₹10,000) and 4G networks.
 
