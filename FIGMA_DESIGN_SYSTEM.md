@@ -2,6 +2,8 @@
 
 This document provides the complete, production-grade Figma design system, auto-layout specifications, component variants, and interactive prototyping guidelines to create or evaluate the **Sprout 2.0** Figma file.
 
+🔗 **Active Figma File:** [Sprout 2.0 — Micro-Investing Platform (Figma Canvas)](https://www.figma.com/design/tZvn8TYcgbfGX6QrdqFtiu/Sprout-2.0-%E2%80%94-Micro-Investing-Platform--%E2%82%B9100-to-Wealth-?node-id=0-1&t=9nmkGULIVUU0Uivz-1)
+
 ---
 
 ## 1. Global Design Tokens & Styles
